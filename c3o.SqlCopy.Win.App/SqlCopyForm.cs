@@ -114,8 +114,7 @@ namespace c3o.SqlCopy
 					obj.FireTriggers = this.cbxFireTriggers.Checked;
 					obj.KeepIdentity = this.cbxKeepIdentity.Checked;
 					obj.KeepNulls = this.cbxKeepNulls.Checked;
-					obj.NotifyAfter = 0;
-					obj.NotifyAfter = 1;
+					obj.NotifyAfter = this.BatchSize < 100 ? 100 : this.BatchSize;
 
 					//obj.ListSql = "";
 					//obj.PostCopySql = "";
@@ -892,6 +891,22 @@ namespace c3o.SqlCopy
 		
 		}
 
+        private void dataGridView1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space && e.Modifiers == Keys.None)
+            {
+                var grid = (DataGridView)sender;
+                if (grid.SelectedRows.Count == 0)
+                {
+                    return;
+                }
 
-	}
+                var value = !(bool)grid.SelectedRows[0].Cells[0].Value;
+                foreach (DataGridViewRow row in grid.SelectedRows)
+                {
+                    row.SetValues(value);
+                }
+            }
+        }
+    }
 }

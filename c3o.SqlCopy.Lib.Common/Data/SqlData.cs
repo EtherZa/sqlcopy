@@ -8,7 +8,9 @@ using c3o.SqlCopy.Objects;
 
 namespace c3o.SqlCopy.Data
 {
-	public class SqlData : IDbData 
+    using System.Reflection;
+
+    public class SqlData : IDbData 
 	{
 		//public event RowsCopiedEventHandler OnRowsCopied;
 	
@@ -58,10 +60,10 @@ namespace c3o.SqlCopy.Data
 							from INFORMATION_SCHEMA.COLUMNS 
 							where   table_schema  = '{0}' 
 									and table_name = '{1}'
-									and not columnproperty(object_id(table_name), COLUMN_NAME, 'IsComputed') = 1";
+									and not columnproperty(object_id('{2}'), COLUMN_NAME, 'IsComputed') = 1";
 
 
-					using (IDataReader dr = this.ExecuteReader(string.Format(sql, table.Schema, table.Name)))
+					using (IDataReader dr = this.ExecuteReader(string.Format(sql, table.Schema, table.Name, this.FullTableName(table))))
 					{
 						while (dr.Read())
 						{
@@ -171,7 +173,12 @@ namespace c3o.SqlCopy.Data
 					//copy.SqlRowsCopied += copy_SqlRowsCopied;
 					copy.SqlRowsCopied += table.OnRowsCopied;
 					copy.WriteToServer(dr);
-				}
+
+                    // update final count
+                    var rowsCopiedField = typeof(SqlBulkCopy).GetField("_rowsCopied", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+                    var rowCount =(int)rowsCopiedField.GetValue(copy);
+                    table.OnRowsCopied(copy, new SqlRowsCopiedEventArgs(rowCount));
+                }
 			}
 		}
 

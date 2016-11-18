@@ -94,13 +94,14 @@ namespace c3o.SqlCopy.Objects
 						Row.DataGridView.Invoke(new MethodInvoker(delegate
 						{
 							var parent = Row.DataGridView;
-							//parent.CurrentCell = Row.Cells[3];
-							//parent.UpdateCellValue(3, Row.Index);
-							//parent.CurrentCell = Row.Cells[4];
-							//parent.UpdateCellValue(4, Row.Index);
-							parent.CurrentCell = Row.Cells[5];
+                            //parent.CurrentCell = Row.Cells[3];
+                            //parent.UpdateCellValue(3, Row.Index);
+                            //parent.CurrentCell = Row.Cells[4];
+                            //parent.UpdateCellValue(4, Row.Index);
+                            parent.InvalidateCell(Row.Cells[4]);
+                            parent.CurrentCell = Row.Cells[5];
 							parent.UpdateCellValue(5, Row.Index);
-							
+
 							////access picturebox here
 							//parent.getView().refreshRow(record);
 							//parent.vue
@@ -109,12 +110,13 @@ namespace c3o.SqlCopy.Objects
 					else
 					{
 						var parent = Row.DataGridView;
-						
-						//parent.CurrentCell = Row.Cells[3];
-						//parent.UpdateCellValue(3, Row.Index);
-						//parent.CurrentCell = Row.Cells[4];
-						//parent.UpdateCellValue(4, Row.Index);
-						parent.CurrentCell = Row.Cells[5];
+
+                        //parent.CurrentCell = Row.Cells[3];
+                        //parent.UpdateCellValue(3, Row.Index);
+                        //parent.CurrentCell = Row.Cells[4];
+                        //parent.UpdateCellValue(4, Row.Index);
+                        parent.InvalidateCell(Row.Cells[4]);
+                        parent.CurrentCell = Row.Cells[5];
 						parent.UpdateCellValue(5, Row.Index);
 						//access picturebox here
 						//parent.Refresh();

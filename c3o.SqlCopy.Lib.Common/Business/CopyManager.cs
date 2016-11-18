@@ -169,6 +169,7 @@ namespace c3o.SqlCopy.Data
 		public void Copy(TableObject obj)
 		{
 			obj.Count = this.Source.Count(obj);
+            obj.CopyStatus = CopyStatusEnum.Copying;
 
 			//dest.OnRowsCopied += dest_OnRowsCopied;
 			//dest.Copy(table, source);
